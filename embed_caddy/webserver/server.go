@@ -1,8 +1,8 @@
 package webserver
 
 import (
-	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 
 	"github.com/mholt/caddy"
@@ -21,8 +21,8 @@ func defaultLoader(serverType string) (caddy.Input, error) {
 		}
 		return nil, err
 	}
-	fmt.Printf("Loading Caddyfile: %s\n", string(contents))
-	fmt.Println(serverType)
+	log.Printf("Loading Caddyfile: %s\n", string(contents))
+	log.Println(serverType)
 	return caddy.CaddyfileInput{
 		Contents:       contents,
 		Filepath:       caddy.DefaultConfigFile,
@@ -30,18 +30,18 @@ func defaultLoader(serverType string) (caddy.Input, error) {
 	}, nil
 }
 
-func StartServer() *caddy.Instance {
+func GetServer() *caddy.Instance {
 	caddy.AppName = "test"
 	caddy.AppVersion = "0.1"
 
 	caddyfile, err := caddy.LoadCaddyfile("http")
 	if err != nil {
-		panic(err)
+		log.Fatalf("Unable to load caddyfile: %s", err)
 	}
 
 	inst, err := caddy.Start(caddyfile)
 	if err != nil {
-		panic(err)
+		log.Fatalf("Unable to start caddy server: %s", err)
 	}
 	return inst
 }
