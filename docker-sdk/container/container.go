@@ -2,9 +2,8 @@
 package container
 
 import (
-	"bytes"
 	"context"
-	logger "log"
+	"log"
 
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/container"
@@ -12,13 +11,6 @@ import (
 	"github.com/docker/docker/client"
 	"github.com/docker/go-connections/nat"
 )
-
-var log *logger.Logger
-
-func init() {
-	var buf bytes.Buffer
-	log = logger.New(&buf, "INFO: ", logger.Lshortfile)
-}
 
 // ListContainer lists all the containers running on host machine
 func ListContainer() error {
